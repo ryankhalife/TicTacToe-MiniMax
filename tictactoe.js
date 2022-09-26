@@ -1,4 +1,4 @@
-const grid = Array(9).fill(0);
+const grid = Array(9).fill("");
 const player = "red";
 const winning_combinations = [
   [0, 1, 2],
@@ -13,6 +13,13 @@ const winning_combinations = [
 let whose_turn = "red";
 let move_played = 0;
 let game_over = 0;
+let yellow_nb = 0;
+let red_nb = 0;
+let draw_nb = 0;
+
+const yellow = document.getElementById("yellow");
+const red = document.getElementById("red");
+const draw = document.getElementById("draw");
 
 const handleClick = (e) => {
   const move = e.target.closest(".row div").id[1];
@@ -42,7 +49,9 @@ const playRandomMove = () => {
 const checkWinners = () => {
   winning_combinations.forEach((wc) => {
     if (grid[wc[0]] && grid[wc[0]] == grid[wc[1]] && grid[wc[0]] == grid[wc[2]]) {
-      game_over = 1; // Red/Yellow win
+      game_over = 1;
+      if (grid[wc[0]] == "red") red.innerText = `Red: ${++red_nb}`;
+      else yellow.innerText = `Yellow: ${++yellow_nb}`;
       cells.forEach((cell) => {
         if (!wc.includes(parseInt(cell.id[1]))) cell.classList.add("brightness-low");
       });
@@ -51,8 +60,19 @@ const checkWinners = () => {
   });
   if (!game_over && move_played >= 9) {
     game_over = 1;
+    draw.innerText = `Draw: ${++draw_nb}`;
     cells.forEach((cell) => cell.classList.add("brightness-low"));
   }
+};
+
+const playAgain = () => {
+  grid.fill("");
+  whose_turn = "red";
+  move_played = 0;
+  game_over = 0;
+  cells.forEach((cell) => {
+    cell.classList.remove("red", "yellow", "brightness-low");
+  });
 };
 
 const cells = document.querySelectorAll(".row div");
