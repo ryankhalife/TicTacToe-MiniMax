@@ -31,7 +31,7 @@ const playMove = (move) => {
   if (game_over) return;
 
   grid[move] = whose_turn;
-  document.getElementById(`c${move}`).classList.add(whose_turn);
+  document.getElementById(`c${move}`).classList.add(whose_turn, "disabled");
   whose_turn = whose_turn == "red" ? "yellow" : "red";
   move_played++;
   checkWinners();
@@ -49,7 +49,7 @@ const playRandomMove = () => {
 const checkWinners = () => {
   for (let wc of winning_combinations) {
     if (grid[wc[0]] && grid[wc[0]] == grid[wc[1]] && grid[wc[0]] == grid[wc[2]]) {
-      game_over = 1;
+      gameOver();
       if (grid[wc[0]] == "red") red.innerText = `Red: ${++red_nb}`;
       else yellow.innerText = `Yellow: ${++yellow_nb}`;
       cells.forEach((cell) => {
@@ -59,7 +59,7 @@ const checkWinners = () => {
     }
   }
   if (!game_over && move_played >= 9) {
-    game_over = 1;
+    gameOver();
     draw.innerText = `Draw: ${++draw_nb}`;
     cells.forEach((cell) => cell.classList.add("brightness-low"));
   }
@@ -71,8 +71,13 @@ const playAgain = () => {
   move_played = 0;
   game_over = 0;
   cells.forEach((cell) => {
-    cell.classList.remove("red", "yellow", "brightness-low");
+    cell.classList.remove("red", "yellow", "brightness-low", "disabled");
   });
+};
+
+const gameOver = () => {
+  game_over = 1;
+  cells.forEach((cell) => cell.classList.add("disabled"));
 };
 
 const cells = document.querySelectorAll(".row div");

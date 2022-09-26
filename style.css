@@ -61,7 +61,7 @@ h1 {
 }
 
 .row > div:hover {
-  background-color: rgba(100, 100, 100, 0.2);
+  cursor: pointer;
 }
 
 .yellow {
@@ -74,4 +74,8 @@ h1 {
 
 .brightness-low {
   filter: brightness(40%);
+}
+
+.disabled:hover {
+  cursor: default !important;
 }
