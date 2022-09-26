@@ -47,7 +47,7 @@ const playRandomMove = () => {
 };
 
 const checkWinners = () => {
-  winning_combinations.forEach((wc) => {
+  for (let wc of winning_combinations) {
     if (grid[wc[0]] && grid[wc[0]] == grid[wc[1]] && grid[wc[0]] == grid[wc[2]]) {
       game_over = 1;
       if (grid[wc[0]] == "red") red.innerText = `Red: ${++red_nb}`;
@@ -55,9 +55,9 @@ const checkWinners = () => {
       cells.forEach((cell) => {
         if (!wc.includes(parseInt(cell.id[1]))) cell.classList.add("brightness-low");
       });
-      return;
+      break;
     }
-  });
+  }
   if (!game_over && move_played >= 9) {
     game_over = 1;
     draw.innerText = `Draw: ${++draw_nb}`;
