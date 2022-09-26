@@ -20,46 +20,44 @@ h1 {
 .grid {
   background-image: url(assets/board.png);
   background-size: contain;
-  height: 783px;
-  width: 744px;
-  transform: scale(0.8, 0.8);
-  transform-origin: top;
+  height: 626.4px;
+  width: 595.2px;
 }
 
 .row {
   display: flex;
-  margin-bottom: 11px;
+  margin-bottom: 8.8px;
 }
 
 .row div {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 250px;
+  height: 200px;
   background-position: center;
-  background-size: 150px;
+  background-size: 120px;
   background-repeat: no-repeat;
 }
 
 .row:nth-child(2) div {
-  height: 265px;
+  height: 212px;
 }
 
 .row:last-child div {
-  height: 246px;
+  height: 196.8px;
 }
 
 .row div:first-child {
-  width: 248px;
+  width: 198.4px;
 }
 
 .row div:nth-child(2) {
-  width: 240px;
-  margin: 0 8.5px;
+  width: 192px;
+  margin: 0 6.8px;
 }
 
 .row div:last-child {
-  width: 240px;
+  width: 192px;
 }
 
 .row > div:hover {
