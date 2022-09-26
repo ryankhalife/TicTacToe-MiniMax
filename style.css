@@ -1,10 +1,29 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+h1 {
+  padding: 10px;
+  margin: 20px 0 60px;
+}
+
+.container {
+  width: 1000px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: auto;
+}
+
 .grid {
   background-image: url(assets/board.png);
   background-size: contain;
   height: 783px;
   width: 744px;
   transform: scale(0.8, 0.8);
-  transform-origin: top left;
+  transform-origin: top;
 }
 
 .row {
