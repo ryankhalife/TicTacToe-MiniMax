@@ -23,23 +23,21 @@ const handleClick = (e) => {
   if (grid[move] || whose_turn != player || game_over) return;
 
   playMove(move);
-
-  if (move_played < 9) playRandomMove();
-
-  console.log(grid);
+  playRandomMove();
 };
 
 const playMove = (move) => {
   if (move_played > 9 || game_over) return;
 
-  grid[move] = whose_turn == "red" ? 1 : 2;
-  document.getElementById(`c${move}`).style.backgroundImage = `url(assets/${whose_turn}.png)`;
+  grid[move] = whose_turn;
+  document.getElementById(`c${move}`).classList.add(whose_turn);
   whose_turn = whose_turn == "red" ? "yellow" : "red";
   move_played++;
   checkWinners();
 };
 
 const playRandomMove = () => {
+  if (game_over || move_played > 9) return;
   let move = Math.floor(Math.random() * 9);
   while (grid[move]) move = Math.floor(Math.random() * 9);
   playMove(move);
@@ -50,7 +48,7 @@ const checkWinners = () => {
     if (grid[cmb[0]] != 0 && grid[cmb[0]] == grid[cmb[1]] && grid[cmb[0]] == grid[cmb[2]]) {
       game_over = 1;
       cmb.forEach((nb) => {
-        document.getElementById(`c${nb}`).style.backgroundColor = grid[nb] == 1 ? "red" : "yellow";
+        document.getElementById(`c${nb}`).style.backgroundColor = grid[nb];
       });
       return;
     }
