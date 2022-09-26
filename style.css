@@ -73,3 +73,7 @@ h1 {
 .red {
   background-image: url(assets/red.png);
 }
+
+.brightness-low {
+  filter: brightness(40%);
+}
