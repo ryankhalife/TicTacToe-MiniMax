@@ -1,0 +1,45 @@
+.grid {
+  background-image: url(assets/board.png);
+  background-size: contain;
+  height: 783px;
+  width: 744px;
+  transform: scale(0.8, 0.8);
+  transform-origin: top left;
+}
+
+.row {
+  display: flex;
+  margin-bottom: 11px;
+}
+
+.row div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 250px;
+}
+
+.row:nth-child(2) div {
+  height: 265px;
+}
+
+.row:last-child div {
+  height: 246px;
+}
+
+.row div:first-child {
+  width: 248px;
+}
+
+.row div:nth-child(2) {
+  width: 240px;
+  margin: 0 8.5px;
+}
+
+.row div:last-child {
+  width: 240px;
+}
+
+.row > div:hover {
+  background-color: rgba(100, 100, 100, 0.2);
+}
