@@ -79,3 +79,8 @@ h1 {
 .disabled:hover {
   cursor: default !important;
 }
+
+.ghost {
+  background-image: url(assets/red.png);
+  filter: brightness(40%);
+}

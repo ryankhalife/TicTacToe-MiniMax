@@ -22,16 +22,29 @@ const red = document.getElementById("red");
 const draw = document.getElementById("draw");
 
 const handleClick = (e) => {
-  const move = e.target.closest(".row div").id[1];
-  if (grid[move] || whose_turn != player || game_over) return;
-  playMove(move);
+  const cell_nb = e.target.closest(".row div").id[1];
+  if (grid[cell_nb] || whose_turn != player || game_over) return;
+  playMove(cell_nb);
 };
 
-const playMove = (move) => {
+const handleMouseOver = (e) => {
+  if (game_over || grid[e.target.closest(".row div").id[1]]) return;
+  e.target.classList.add("ghost");
+};
+
+const handleMouseLeave = (e) => {
+  const cell_nb = e.target.closest(".row div").id[1];
+  if (grid[cell_nb]) return;
+  e.target.classList.remove("ghost");
+};
+
+const playMove = (cell_nb) => {
   if (game_over) return;
 
-  grid[move] = whose_turn;
-  document.getElementById(`c${move}`).classList.add(whose_turn, "disabled");
+  grid[cell_nb] = whose_turn;
+  const cell = document.getElementById(`c${cell_nb}`);
+  cell.classList.add(whose_turn, "disabled");
+  cell.classList.remove("ghost");
   whose_turn = whose_turn == "red" ? "yellow" : "red";
   move_played++;
   checkWinners();
@@ -82,3 +95,5 @@ const gameOver = () => {
 
 const cells = document.querySelectorAll(".row div");
 cells.forEach((cell) => cell.addEventListener("click", handleClick));
+cells.forEach((cell) => cell.addEventListener("mouseover", handleMouseOver));
+cells.forEach((cell) => cell.addEventListener("mouseleave", handleMouseLeave));
