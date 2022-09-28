@@ -60,10 +60,6 @@ h1 {
   width: 192px;
 }
 
-.row > div:hover {
-  cursor: pointer;
-}
-
 @keyframes bouncein {
   from {
     background-size: 90px;
@@ -115,10 +111,6 @@ h1 {
   animation: 0.8s ease-in-out 2 pulse-big;
 }
 
-.disabled:hover {
-  cursor: default !important;
-}
-
 @keyframes pulse-small {
   from {
     background-size: 60px;
@@ -135,4 +127,5 @@ h1 {
   background-image: url(assets/red.png);
   filter: brightness(80%);
   animation: pulse-small 0.8s infinite ease-in-out;
+  cursor: pointer;
 }

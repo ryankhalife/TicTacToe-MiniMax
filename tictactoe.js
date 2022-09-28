@@ -43,7 +43,7 @@ const playMove = (cell_nb) => {
 
   grid[cell_nb] = whose_turn;
   const cell = document.getElementById(`c${cell_nb}`);
-  cell.classList.add(whose_turn, "disabled");
+  cell.classList.add(whose_turn);
   cell.classList.remove("ghost");
   whose_turn = whose_turn == "red" ? "yellow" : "red";
   move_played++;
@@ -84,13 +84,12 @@ const playAgain = () => {
   move_played = 0;
   game_over = 0;
   cells.forEach((cell) => {
-    cell.classList.remove("red", "yellow", "lose", "disabled", "win");
+    cell.classList.remove("red", "yellow", "lose", "win");
   });
 };
 
 const gameOver = () => {
   game_over = 1;
-  cells.forEach((cell) => cell.classList.add("disabled"));
 };
 
 const cells = document.querySelectorAll(".row div");
