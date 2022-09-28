@@ -64,12 +64,36 @@ h1 {
   cursor: pointer;
 }
 
-.yellow {
-  background-image: url(assets/yellow.png);
+@keyframes bouncein {
+  from {
+    background-size: 90px;
+    filter: brightness(80%);
+  }
+  20% {
+    background-size: 135px;
+  }
+  40% {
+    background-size: 105px;
+  }
+  60% {
+    background-size: 127px;
+    filter: brightness(100%);
+  }
+  80% {
+    background-size: 113px;
+  }
+  to {
+    background-size: 120px;
+  }
 }
-
 .red {
   background-image: url(assets/red.png);
+  animation: 0.5s 1 bouncein;
+}
+
+.yellow {
+  background-image: url(assets/yellow.png);
+  animation: 0.5s 1 bouncein;
 }
 
 .lose {

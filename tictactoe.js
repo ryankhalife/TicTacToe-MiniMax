@@ -47,7 +47,7 @@ const playMove = (cell_nb) => {
   cell.classList.remove("ghost");
   whose_turn = whose_turn == "red" ? "yellow" : "red";
   move_played++;
-  checkWinners();
+  setTimeout(checkWinners, 500);
   if (move_played < 9 && whose_turn != player) setTimeout(playComputerMove, 1000);
 };
 
