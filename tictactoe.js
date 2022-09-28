@@ -27,8 +27,8 @@ const handleClick = (e) => {
   playMove(cell_nb);
 };
 
-const handleMouseOver = (e) => {
-  if (game_over || grid[e.target.closest(".row div").id[1]]) return;
+const handleMouseMove = (e) => {
+  if (game_over || whose_turn != player || grid[e.target.closest(".row div").id[1]]) return;
   e.target.classList.add("ghost");
 };
 
@@ -48,11 +48,10 @@ const playMove = (cell_nb) => {
   whose_turn = whose_turn == "red" ? "yellow" : "red";
   move_played++;
   checkWinners();
-
-  if (move_played < 9 && whose_turn != player) playRandomMove();
+  if (move_played < 9 && whose_turn != player) playComputerMove();
 };
 
-const playRandomMove = () => {
+const playComputerMove = () => {
   if (game_over) return;
   let move = Math.floor(Math.random() * 9);
   while (grid[move]) move = Math.floor(Math.random() * 9);
@@ -95,5 +94,5 @@ const gameOver = () => {
 
 const cells = document.querySelectorAll(".row div");
 cells.forEach((cell) => cell.addEventListener("click", handleClick));
-cells.forEach((cell) => cell.addEventListener("mouseover", handleMouseOver));
+cells.forEach((cell) => cell.addEventListener("mousemove", handleMouseMove));
 cells.forEach((cell) => cell.addEventListener("mouseleave", handleMouseLeave));
