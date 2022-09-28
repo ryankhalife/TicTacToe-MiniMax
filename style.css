@@ -112,7 +112,7 @@ h1 {
   }
 }
 .win {
-  animation: 0.8s ease-in-out 3 pulse-big;
+  animation: 0.8s ease-in-out 2 pulse-big;
 }
 
 .disabled:hover {
