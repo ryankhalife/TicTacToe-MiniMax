@@ -48,7 +48,7 @@ const playMove = (cell_nb) => {
   whose_turn = whose_turn == "red" ? "yellow" : "red";
   move_played++;
   checkWinners();
-  if (move_played < 9 && whose_turn != player) playComputerMove();
+  if (move_played < 9 && whose_turn != player) setTimeout(playComputerMove, 1000);
 };
 
 const playComputerMove = () => {
