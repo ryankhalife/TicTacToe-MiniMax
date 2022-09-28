@@ -11,6 +11,7 @@ const winning_combinations = [
   [2, 4, 6],
 ];
 let whose_turn = "red";
+let who_starts = "red";
 let move_played = 0;
 let game_over = 0;
 let yellow_nb = 0;
@@ -40,7 +41,6 @@ const handleMouseLeave = (e) => {
 
 const playMove = (cell_nb) => {
   if (game_over) return;
-
   grid[cell_nb] = whose_turn;
   const cell = document.getElementById(`c${cell_nb}`);
   cell.classList.add(whose_turn);
@@ -80,19 +80,29 @@ const checkWinners = () => {
 
 const playAgain = () => {
   grid.fill("");
-  whose_turn = "red";
+  who_starts = who_starts == "red" ? "yellow" : "red";
+  whose_turn = who_starts;
   move_played = 0;
   game_over = 0;
   cells.forEach((cell) => {
     cell.classList.remove("red", "yellow", "lose", "win");
   });
+  startGame();
 };
 
 const gameOver = () => {
   game_over = 1;
 };
 
+const startGame = () => {
+  if (who_starts == "yellow") {
+    setTimeout(playComputerMove, 1000);
+  }
+};
+
 const cells = document.querySelectorAll(".row div");
 cells.forEach((cell) => cell.addEventListener("click", handleClick));
 cells.forEach((cell) => cell.addEventListener("mousemove", handleMouseMove));
 cells.forEach((cell) => cell.addEventListener("mouseleave", handleMouseLeave));
+
+startGame();
