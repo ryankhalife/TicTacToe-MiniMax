@@ -65,7 +65,8 @@ const checkWinners = () => {
       if (grid[wc[0]] == "red") red.innerText = `Red: ${++red_nb}`;
       else yellow.innerText = `Yellow: ${++yellow_nb}`;
       cells.forEach((cell) => {
-        if (!wc.includes(parseInt(cell.id[1]))) cell.classList.add("brightness-low");
+        if (!wc.includes(parseInt(cell.id[1]))) cell.classList.add("lose");
+        else cell.classList.add("win");
       });
       break;
     }
@@ -73,7 +74,7 @@ const checkWinners = () => {
   if (!game_over && move_played >= 9) {
     gameOver();
     draw.innerText = `Draw: ${++draw_nb}`;
-    cells.forEach((cell) => cell.classList.add("brightness-low"));
+    cells.forEach((cell) => cell.classList.add("lose"));
   }
 };
 
@@ -83,7 +84,7 @@ const playAgain = () => {
   move_played = 0;
   game_over = 0;
   cells.forEach((cell) => {
-    cell.classList.remove("red", "yellow", "brightness-low", "disabled");
+    cell.classList.remove("red", "yellow", "lose", "disabled", "win");
   });
 };
 

@@ -72,8 +72,23 @@ h1 {
   background-image: url(assets/red.png);
 }
 
-.brightness-low {
+.lose {
   filter: brightness(40%);
+}
+
+@keyframes pulse-big {
+  from {
+    background-size: 120px;
+  }
+  50% {
+    background-size: 150px;
+  }
+  to {
+    background-size: 120px;
+  }
+}
+.win {
+  animation: 0.8s ease-in-out 3 pulse-big;
 }
 
 .disabled:hover {
@@ -96,7 +111,4 @@ h1 {
   background-image: url(assets/red.png);
   filter: brightness(80%);
   animation: pulse-small 0.8s infinite ease-in-out;
-}
-
-.grid div {
 }
