@@ -1,5 +1,6 @@
 const grid = Array(9).fill("");
 const player = "red";
+const computer = "yellow";
 const winning_combinations = [
   [0, 1, 2],
   [3, 4, 5],
@@ -46,9 +47,9 @@ const playMove = (cell_nb) => {
   const cell = document.getElementById(`c${cell_nb}`);
   cell.classList.add(whose_turn);
   cell.classList.remove("ghost");
-  whose_turn = whose_turn == "red" ? "yellow" : "red";
+  whose_turn = whose_turn === player ? computer : player;
   move_played++;
-  setTimeout(checkWinners, 500);
+  checkWinners();
   if (move_played < 9 && whose_turn != player && !game_over) setTimeout(playComputerMove, 1000);
 };
 
@@ -58,57 +59,63 @@ const playComputerMove = () => {
   playMove(move);
 };
 
+const handleGameOver = (wc = null, winner = null) => {
+  if (wc === null || winner === null) {
+    updateScore(draw, ++draw_nb);
+    localStorage.setItem("draw", draw_nb);
+    cells.forEach((cell) => cell.classList.add("lose"));
+  } else {
+    if (winner === player) {
+      updateScore(red, ++red_nb);
+      localStorage.setItem("red", red_nb);
+    } else {
+      updateScore(yellow, ++yellow_nb);
+      localStorage.setItem("yellow", yellow_nb);
+    }
+    cells.forEach((cell) => {
+      if (!wc.includes(parseInt(cell.id[1]))) cell.classList.add("lose");
+      else cell.classList.add("win");
+    });
+  }
+  who_starts = who_starts === player ? computer : player;
+  localStorage.setItem("who_starts", who_starts);
+};
+
 const checkWinners = () => {
   for (let wc of winning_combinations) {
-    if (grid[wc[0]] && grid[wc[0]] == grid[wc[1]] && grid[wc[0]] == grid[wc[2]]) {
-      gameOver();
-      if (grid[wc[0]] == "red") {
-        red.innerText = `Red: ${++red_nb}`;
-        localStorage.setItem("red", red_nb);
-      } else {
-        yellow.innerText = `Yellow: ${++yellow_nb}`;
-        localStorage.setItem("yellow", yellow_nb);
-      }
-      cells.forEach((cell) => {
-        if (!wc.includes(parseInt(cell.id[1]))) cell.classList.add("lose");
-        else cell.classList.add("win");
-      });
-      break;
+    if (grid[wc[0]] && grid[wc[0]] === grid[wc[1]] && grid[wc[0]] === grid[wc[2]]) {
+      game_over = 1;
+      setTimeout(() => handleGameOver(wc, grid[wc[0]]), 1000);
+      return;
     }
   }
   if (!game_over && move_played >= 9) {
-    gameOver();
-    draw.innerText = `Draw: ${++draw_nb}`;
-    localStorage.setItem("draw", draw_nb);
-    cells.forEach((cell) => cell.classList.add("lose"));
+    game_over = 1;
+    setTimeout(handleGameOver, 1000);
   }
 };
 
 const playAgain = () => {
   grid.fill("");
-  who_starts = who_starts == "red" ? "yellow" : "red";
-  localStorage.setItem("who_starts", who_starts);
   whose_turn = who_starts;
   move_played = 0;
   game_over = 0;
   cells.forEach((cell) => {
     cell.classList.remove("red", "yellow", "lose", "win");
   });
-  if (who_starts == "yellow") setTimeout(playComputerMove, 1000);
-};
-
-const gameOver = () => {
-  game_over = 1;
+  if (who_starts === computer) setTimeout(playComputerMove, 1000);
 };
 
 const reset = () => {
+  localStorage.clear();
   red_nb = 0;
   yellow_nb = 0;
   draw_nb = 0;
-  localStorage.clear();
-  red.innerText = `Red: 0`;
-  yellow.innerText = `Yellow: 0`;
-  draw.innerText = `Draw: 0`;
+  who_starts = "red";
+  whose_turn = who_starts;
+  updateScore(red, red_nb);
+  updateScore(yellow, yellow_nb);
+  updateScore(draw, draw_nb);
   playAgain();
 };
 
@@ -121,4 +128,4 @@ updateScore(yellow, yellow_nb);
 updateScore(red, red_nb);
 updateScore(draw, draw_nb);
 
-if (who_starts === "yellow") setTimeout(playComputerMove, 1000);
+if (who_starts === computer) setTimeout(playComputerMove, 1000);
