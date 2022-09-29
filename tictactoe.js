@@ -79,6 +79,7 @@ const handleGameOver = (wc = null, winner = null) => {
   }
   who_starts = who_starts === player ? computer : player;
   localStorage.setItem("who_starts", who_starts);
+  setTimeout(playAgain, 2000);
 };
 
 const checkWinners = () => {
