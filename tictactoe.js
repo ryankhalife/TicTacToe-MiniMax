@@ -23,7 +23,7 @@ const yellow = document.getElementById("yellow");
 const red = document.getElementById("red");
 const draw = document.getElementById("draw");
 
-const updateScore = (element, value) => (element.innerText = `${element.id}: ${value}`);
+const updateScore = (element, value) => (element.innerText = `${value}`);
 
 const handleClick = (e) => {
   const cell_nb = e.target.closest(".row div").id[1];

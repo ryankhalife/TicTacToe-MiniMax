@@ -6,30 +6,45 @@
   </head>
   <body>
     <div class="container">
-      <h1>Tic Tac Toe</h1>
-      <div class="grid">
-        <div class="row">
-          <div id="c0"></div>
-          <div id="c1"></div>
-          <div id="c2"></div>
+      <div class="left">
+        <h1>Tic<br />Tac<br />Toe</h1>
+      </div>
+      <div class="middle">
+        <div class="grid">
+          <div class="row">
+            <div id="c0"></div>
+            <div id="c1"></div>
+            <div id="c2"></div>
+          </div>
+          <div class="row">
+            <div id="c3"></div>
+            <div id="c4"></div>
+            <div id="c5"></div>
+          </div>
+          <div class="row">
+            <div id="c6"></div>
+            <div id="c7"></div>
+            <div id="c8"></div>
+          </div>
         </div>
-        <div class="row">
-          <div id="c3"></div>
-          <div id="c4"></div>
-          <div id="c5"></div>
-        </div>
-        <div class="row">
-          <div id="c6"></div>
-          <div id="c7"></div>
-          <div id="c8"></div>
+        <div class="scores">
+          <div class="score">
+            <p class="title">Player (Red)</p>
+            <p class="value" id="red">0</p>
+          </div>
+          <div class="score">
+            <p class="title">Draw</p>
+            <p class="value" id="draw">0</p>
+          </div>
+          <div class="score">
+            <p class="title">Computer (Yellow)</p>
+            <p class="value" id="yellow">0</p>
+          </div>
         </div>
       </div>
-      <button id="play-again" style="margin-top: 40px" onclick="playAgain()">Play Again</button>
-      <button id="reset-scores" onclick="reset()">Reset</button>
-      <div class="score">
-        <p id="red">Red: 0</p>
-        <p id="yellow">Yellow: 0</p>
-        <p id="draw">Draw: 0</p>
+      <div class="right">
+        <button id="play-again" style="margin-top: 40px" onclick="playAgain()">Play Again</button>
+        <button id="reset-scores" onclick="reset()">Reset</button>
       </div>
     </div>
 

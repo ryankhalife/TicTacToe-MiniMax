@@ -1,20 +1,66 @@
+@import url("https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Roboto&display=swap");
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-h1 {
-  padding: 10px;
-  margin: 20px 0 60px;
+.container {
+  display: flex;
+  justify-content: center;
 }
 
-.container {
-  width: 1000px;
+.left,
+.right {
+  flex-basis: 0;
+  flex-grow: 1;
+}
+
+.left {
+  display: flex;
+  justify-content: end;
+}
+.left h1 {
+  font-family: "Black Ops One", cursive;
+  font-size: 40px;
+  line-height: 0.8;
+  margin-top: 80px;
+  margin-right: 100px;
+}
+
+.middle {
+  padding: 0 30px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: auto;
+  height: 100vh;
+  justify-content: center;
+}
+
+.scores {
+  display: flex;
+  justify-content: space-between;
+  width: 600px;
+  padding: 0 40px;
+  margin-top: 50px;
+}
+
+.score {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: "Roboto", sans-serif;
+}
+
+.score .title {
+  font-size: 20px;
+  text-transform: uppercase;
+}
+
+.score .value {
+  font-size: 50px;
+  margin-top: 5px;
 }
 
 .grid {
