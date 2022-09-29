@@ -55,31 +55,6 @@
   justify-content: center;
 }
 
-.scores {
-  display: flex;
-  justify-content: space-between;
-  width: 600px;
-  padding: 0 40px;
-  margin-top: 50px;
-}
-
-.score {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  font-family: "Roboto", sans-serif;
-}
-
-.score .title {
-  font-size: 20px;
-  text-transform: uppercase;
-}
-
-.score .value {
-  font-size: 50px;
-  margin-top: 5px;
-}
-
 .grid {
   background-image: url(assets/board.png);
   background-size: contain;
@@ -193,6 +168,28 @@
   cursor: pointer;
 }
 
-.score {
+.scores {
+  display: flex;
+  justify-content: space-between;
+  width: 600px;
+  padding: 0 40px;
+  margin-top: 50px;
   text-transform: capitalize;
+}
+
+.score {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: "Roboto", sans-serif;
+}
+
+.score .title {
+  font-size: 20px;
+  text-transform: uppercase;
+}
+
+.score .value {
+  font-size: 50px;
+  margin-top: 5px;
 }
