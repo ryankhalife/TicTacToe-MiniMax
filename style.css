@@ -129,3 +129,7 @@ h1 {
   animation: pulse-small 0.8s infinite ease-in-out;
   cursor: pointer;
 }
+
+.score {
+  text-transform: capitalize;
+}

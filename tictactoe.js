@@ -10,17 +10,19 @@ const winning_combinations = [
   [0, 4, 8],
   [2, 4, 6],
 ];
-let whose_turn = "red";
-let who_starts = "red";
+let red_nb = localStorage.getItem("red") ?? 0;
+let yellow_nb = localStorage.getItem("yellow") ?? 0;
+let draw_nb = localStorage.getItem("draw") ?? 0;
+let who_starts = localStorage.getItem("who_starts") ?? "red";
+let whose_turn = who_starts;
 let move_played = 0;
 let game_over = 0;
-let yellow_nb = 0;
-let red_nb = 0;
-let draw_nb = 0;
 
 const yellow = document.getElementById("yellow");
 const red = document.getElementById("red");
 const draw = document.getElementById("draw");
+
+const updateScore = (element, value) => (element.innerText = `${element.id}: ${value}`);
 
 const handleClick = (e) => {
   const cell_nb = e.target.closest(".row div").id[1];
@@ -40,7 +42,6 @@ const handleMouseLeave = (e) => {
 };
 
 const playMove = (cell_nb) => {
-  if (game_over) return;
   grid[cell_nb] = whose_turn;
   const cell = document.getElementById(`c${cell_nb}`);
   cell.classList.add(whose_turn);
@@ -48,11 +49,10 @@ const playMove = (cell_nb) => {
   whose_turn = whose_turn == "red" ? "yellow" : "red";
   move_played++;
   setTimeout(checkWinners, 500);
-  if (move_played < 9 && whose_turn != player) setTimeout(playComputerMove, 1000);
+  if (move_played < 9 && whose_turn != player && !game_over) setTimeout(playComputerMove, 1000);
 };
 
 const playComputerMove = () => {
-  if (game_over) return;
   let move = Math.floor(Math.random() * 9);
   while (grid[move]) move = Math.floor(Math.random() * 9);
   playMove(move);
@@ -62,8 +62,13 @@ const checkWinners = () => {
   for (let wc of winning_combinations) {
     if (grid[wc[0]] && grid[wc[0]] == grid[wc[1]] && grid[wc[0]] == grid[wc[2]]) {
       gameOver();
-      if (grid[wc[0]] == "red") red.innerText = `Red: ${++red_nb}`;
-      else yellow.innerText = `Yellow: ${++yellow_nb}`;
+      if (grid[wc[0]] == "red") {
+        red.innerText = `Red: ${++red_nb}`;
+        localStorage.setItem("red", red_nb);
+      } else {
+        yellow.innerText = `Yellow: ${++yellow_nb}`;
+        localStorage.setItem("yellow", yellow_nb);
+      }
       cells.forEach((cell) => {
         if (!wc.includes(parseInt(cell.id[1]))) cell.classList.add("lose");
         else cell.classList.add("win");
@@ -74,6 +79,7 @@ const checkWinners = () => {
   if (!game_over && move_played >= 9) {
     gameOver();
     draw.innerText = `Draw: ${++draw_nb}`;
+    localStorage.setItem("draw", draw_nb);
     cells.forEach((cell) => cell.classList.add("lose"));
   }
 };
@@ -81,23 +87,29 @@ const checkWinners = () => {
 const playAgain = () => {
   grid.fill("");
   who_starts = who_starts == "red" ? "yellow" : "red";
+  localStorage.setItem("who_starts", who_starts);
   whose_turn = who_starts;
   move_played = 0;
   game_over = 0;
   cells.forEach((cell) => {
     cell.classList.remove("red", "yellow", "lose", "win");
   });
-  startGame();
+  if (who_starts == "yellow") setTimeout(playComputerMove, 1000);
 };
 
 const gameOver = () => {
   game_over = 1;
 };
 
-const startGame = () => {
-  if (who_starts == "yellow") {
-    setTimeout(playComputerMove, 1000);
-  }
+const reset = () => {
+  red_nb = 0;
+  yellow_nb = 0;
+  draw_nb = 0;
+  localStorage.clear();
+  red.innerText = `Red: 0`;
+  yellow.innerText = `Yellow: 0`;
+  draw.innerText = `Draw: 0`;
+  playAgain();
 };
 
 const cells = document.querySelectorAll(".row div");
@@ -105,4 +117,8 @@ cells.forEach((cell) => cell.addEventListener("click", handleClick));
 cells.forEach((cell) => cell.addEventListener("mousemove", handleMouseMove));
 cells.forEach((cell) => cell.addEventListener("mouseleave", handleMouseLeave));
 
-startGame();
+updateScore(yellow, yellow_nb);
+updateScore(red, red_nb);
+updateScore(draw, draw_nb);
+
+if (who_starts === "yellow") setTimeout(playComputerMove, 1000);
