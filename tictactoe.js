@@ -18,6 +18,9 @@ let who_starts = localStorage.getItem("who_starts") ?? "red";
 let whose_turn = who_starts;
 let move_played = 0;
 let game_over = 0;
+let computer_timeout_id;
+let playagain_timeout_id;
+let gameover_timeout_id;
 
 const yellow = document.getElementById("yellow");
 const red = document.getElementById("red");
@@ -50,7 +53,8 @@ const playMove = (cell_nb) => {
   whose_turn = whose_turn === player ? computer : player;
   move_played++;
   checkGameOver();
-  if (move_played < 9 && whose_turn != player && !game_over) setTimeout(playComputerMove, 1000);
+  if (move_played < 9 && whose_turn != player && !game_over)
+    computer_timeout_id = setTimeout(playComputerMove, 1000);
 };
 
 const minimax = (isMaximizing = false) => {
@@ -120,17 +124,20 @@ const handleGameOver = (wc = null, winner = null) => {
   }
   who_starts = who_starts === player ? computer : player;
   localStorage.setItem("who_starts", who_starts);
-  setTimeout(playAgain, 2000);
+  playagain_timeout_id = setTimeout(playAgain, 2000);
 };
 
 const checkGameOver = () => {
   const boardStatus = getGridStatus();
   if (boardStatus?.winner) {
     game_over = 1;
-    setTimeout(() => handleGameOver(boardStatus.wc, boardStatus.winner), 1000);
+    gameover_timeout_id = setTimeout(
+      () => handleGameOver(boardStatus.wc, boardStatus.winner),
+      1000
+    );
   } else if (boardStatus?.tie) {
     game_over = 1;
-    setTimeout(handleGameOver, 1000);
+    gameover_timeout_id = setTimeout(handleGameOver, 1000);
   }
 };
 
@@ -153,11 +160,14 @@ const playAgain = () => {
   cells.forEach((cell) => {
     cell.classList.remove("red", "yellow", "lose", "win");
   });
-  if (who_starts === computer) setTimeout(playComputerMove, 1000);
+  if (who_starts === computer) computer_timeout_id = setTimeout(playComputerMove, 1000);
 };
 
 const reset = () => {
   localStorage.clear();
+  clearTimeout(computer_timeout_id);
+  clearTimeout(playagain_timeout_id);
+  clearTimeout(gameover_timeout_id);
   red_nb = 0;
   yellow_nb = 0;
   draw_nb = 0;
@@ -166,6 +176,7 @@ const reset = () => {
   updateScore(red, red_nb);
   updateScore(yellow, yellow_nb);
   updateScore(draw, draw_nb);
+  clearTimeout();
   playAgain();
 };
 
@@ -178,4 +189,4 @@ updateScore(yellow, yellow_nb);
 updateScore(red, red_nb);
 updateScore(draw, draw_nb);
 
-if (who_starts === computer) setTimeout(playComputerMove, 1000);
+if (who_starts === computer) computer_timeout_id = setTimeout(playComputerMove, 1000);
