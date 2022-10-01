@@ -49,13 +49,54 @@ const playMove = (cell_nb) => {
   cell.classList.remove("ghost");
   whose_turn = whose_turn === player ? computer : player;
   move_played++;
-  checkWinners();
+  checkGameOver();
   if (move_played < 9 && whose_turn != player && !game_over) setTimeout(playComputerMove, 1000);
 };
 
+const minimax = (isMaximizing = false) => {
+  const boardStatus = getGridStatus();
+  if (boardStatus?.winner === computer) return 10;
+  if (boardStatus?.winner === player) return -10;
+  if (boardStatus?.tie) return 0;
+
+  if (isMaximizing) {
+    let best = -1000;
+    for (let i = 0; i < 9; i++) {
+      if (!grid[i]) {
+        grid[i] = computer;
+        best = Math.max(best, minimax(!isMaximizing));
+        grid[i] = "";
+      }
+    }
+    return best;
+  } else {
+    let best = 1000;
+    for (let i = 0; i < 9; i++) {
+      if (!grid[i]) {
+        grid[i] = player;
+        best = Math.min(best, minimax(!isMaximizing));
+        grid[i] = "";
+      }
+    }
+    return best;
+  }
+};
+
 const playComputerMove = () => {
-  let move = Math.floor(Math.random() * 9);
-  while (grid[move]) move = Math.floor(Math.random() * 9);
+  let move;
+  let best = -1000;
+  for (let i = 0; i < 9; i++) {
+    if (!grid[i]) {
+      grid[i] = computer;
+      moveScore = Math.max(best, minimax());
+      grid[i] = "";
+
+      if (moveScore > best) {
+        best = moveScore;
+        move = i;
+      }
+    }
+  }
   playMove(move);
 };
 
@@ -82,17 +123,25 @@ const handleGameOver = (wc = null, winner = null) => {
   setTimeout(playAgain, 2000);
 };
 
-const checkWinners = () => {
-  for (let wc of winning_combinations) {
-    if (grid[wc[0]] && grid[wc[0]] === grid[wc[1]] && grid[wc[0]] === grid[wc[2]]) {
-      game_over = 1;
-      setTimeout(() => handleGameOver(wc, grid[wc[0]]), 1000);
-      return;
-    }
-  }
-  if (!game_over && move_played >= 9) {
+const checkGameOver = () => {
+  const boardStatus = getGridStatus();
+  if (boardStatus?.winner) {
+    game_over = 1;
+    setTimeout(() => handleGameOver(boardStatus.wc, boardStatus.winner), 1000);
+  } else if (boardStatus?.tie) {
     game_over = 1;
     setTimeout(handleGameOver, 1000);
+  }
+};
+
+const getGridStatus = () => {
+  for (let wc of winning_combinations) {
+    if (grid[wc[0]] && grid[wc[0]] === grid[wc[1]] && grid[wc[0]] === grid[wc[2]]) {
+      return { winner: grid[wc[0]], wc: wc };
+    }
+  }
+  if (!grid.includes("")) {
+    return { tie: true };
   }
 };
 
